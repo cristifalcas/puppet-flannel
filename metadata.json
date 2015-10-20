@@ -1,0 +1,20 @@
+{
+	"name": "cristifalcas-flannel",
+	"version": "0.1.0",
+	"author": "Cristian Falcas",
+	"license": "Apache-2.0",
+	"project_page": "https://github.com/cristifalcas/puppet-flannel",
+	"source": "git@github.com:cristifalcas/puppet-flannel.git",
+	"issues_url": "https://github.com/cristifalcas/puppet-flannel/issues",
+	"summary": "flannel is a virtual network that gives a subnet to each host for use with container runtimes.",
+	"tags": [ "flannel",
+		"docker"
+	],
+	"operatingsystem_support": [],
+	"requirements": [],
+	"dependencies": [{
+			"name": "cristifalcas/etcd",
+			"version_requirement": "0.x"
+		}
+	]
+}

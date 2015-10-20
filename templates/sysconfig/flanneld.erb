@@ -1,0 +1,33 @@
+<% if @public_ip then -%>FLANNELD_PUBLIC_IP="<%= scope['flanell::public_ip'] %>"
+<% end -%>
+
+FLANNELD_ETCD_ENDPOINTS="<%= scope['flanell::etcd_endpoints'] %>"
+FLANNELD_ETCD_PREFIX=<%= scope['flanell::etcd_prefix'] %>
+<% if @etcd_keyfile then -%>FLANNELD_ETCD_KEYFILE=<%= scope['flanell::etcd_keyfile'] %>
+<% end -%>
+<% if @etcd_certfile then -%>FLANNELD_ETCD_CERTFILE=<%= scope['flanell::etcd_certfile'] %>
+<% end -%>
+<% if @etcd_cafile then -%>FLANNELD_ETCD_CAFILE=<%= scope['flanell::etcd_cafile'] %>
+<% end -%>
+
+<% if @iface then -%>FLANNELD_IFACE=<%= scope['flanell::iface'] %>
+<% end -%>
+
+FLANNELD_SUBNET_FILE=<%= scope['flanell::subnet_file'] %>
+
+FLANNELD_IP_MASQ=<%= scope['flanell::ip_masq'] %>
+
+<% if @listen then -%>FLANNELD_LISTEN=<%= scope['flanell::listen'] %>
+<% end -%>
+
+<% if @remote then -%>FLANNELD_REMOTE=<%= scope['flanell::remote'] %>
+<% end -%>
+<% if @remote_keyfile then -%>FLANNELD_REMOTE_KEYFILE=<%= scope['flanell::remote_keyfile'] %>
+<% end -%>
+<% if @remote_certfile then -%>FLANNELD_REMOTE_CERTFILE=<%= scope['flanell::remote_certfile'] %>
+<% end -%>
+<% if @remote_cafile then -%>FLANNELD_REMOTE_CAFILE=<%= scope['flanell::remote_cafile'] %>
+<% end -%>
+
+<% if @networks then -%>FLANNELD_NETWORKS=<%= scope['flanell::networks'] %>
+<% end -%>
