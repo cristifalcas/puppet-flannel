@@ -1,33 +1,44 @@
-<% if @public_ip then -%>FLANNELD_PUBLIC_IP="<%= scope['flanell::public_ip'] %>"
-<% end -%>
+# Flanneld configuration options
 
-FLANNELD_ETCD_ENDPOINTS="<%= scope['flanell::etcd_endpoints'] %>"
-FLANNELD_ETCD_PREFIX=<%= scope['flanell::etcd_prefix'] %>
-<% if @etcd_keyfile then -%>FLANNELD_ETCD_KEYFILE=<%= scope['flanell::etcd_keyfile'] %>
-<% end -%>
-<% if @etcd_certfile then -%>FLANNELD_ETCD_CERTFILE=<%= scope['flanell::etcd_certfile'] %>
-<% end -%>
-<% if @etcd_cafile then -%>FLANNELD_ETCD_CAFILE=<%= scope['flanell::etcd_cafile'] %>
-<% end -%>
+# etcd url location.  Point this to the server where etcd runs
+FLANNEL_ETCD="<%= Array(scope['flannel::etcd_endpoints']).join(",") %>"
 
-<% if @iface then -%>FLANNELD_IFACE=<%= scope['flanell::iface'] %>
-<% end -%>
+# etcd config key.  This is the configuration key that flannel queries
+# For address range assignment
+FLANNEL_ETCD_KEY="<%= scope['flannel::etcd_prefix'] %>"
 
-FLANNELD_SUBNET_FILE=<%= scope['flanell::subnet_file'] %>
-
-FLANNELD_IP_MASQ=<%= scope['flanell::ip_masq'] %>
-
-<% if @listen then -%>FLANNELD_LISTEN=<%= scope['flanell::listen'] %>
+# Any additional options that you want to pass
+FLANNEL_OPTIONS="<% -%>
+ -alsologtostderr=<%= scope['flannel::alsologtostderr'] -%>
+<% if @etcd_keyfile && @etcd_certfile && @etcd_cafile then -%>
+ -etcd-cafile=<%= scope['flannel::etcd_cafile'] -%>
+ -etcd-certfile=<%= scope['flannel::etcd_certfile'] -%>
+ -etcd-keyfile=<%= scope['flannel::etcd_keyfile'] -%>
 <% end -%>
-
-<% if @remote then -%>FLANNELD_REMOTE=<%= scope['flanell::remote'] %>
+<% if @iface then -%>
+ -iface=<%= scope['flannel::iface'] -%>
 <% end -%>
-<% if @remote_keyfile then -%>FLANNELD_REMOTE_KEYFILE=<%= scope['flanell::remote_keyfile'] %>
+ -ip-masq=<%= scope['flannel::ip_masq'] -%>
+<% if @listen then -%>
+ -listen=<%= scope['flannel::listen'] -%>
 <% end -%>
-<% if @remote_certfile then -%>FLANNELD_REMOTE_CERTFILE=<%= scope['flanell::remote_certfile'] %>
+<% if @log_dir then -%>
+ -log_dir=<%= scope['flannel::log_dir'] -%>
 <% end -%>
-<% if @remote_cafile then -%>FLANNELD_REMOTE_CAFILE=<%= scope['flanell::remote_cafile'] %>
+<% if @networks then -%>
+ -networks=<%= scope['flannel::networks'] -%>
 <% end -%>
-
-<% if @networks then -%>FLANNELD_NETWORKS=<%= scope['flanell::networks'] %>
+<% if @public_ip then -%>
+ -public-ip="<%= scope['flannel::public_ip'] %>"
 <% end -%>
+<% if @remote then -%>
+ -remote=<%= scope['flannel::remote'] -%>
+<% end -%>
+<% if @remote_keyfile && @remote_certfile && @remote_cafile then -%>
+ -remote-cafile=<%= scope['flannel::remote_cafile'] -%>
+ -remote-certfile=<%= scope['flannel::remote_certfile'] -%>
+ -remote-keyfile=<%= scope['flannel::remote_keyfile'] -%>
+<% end -%>
+ -subnet-dir=<%= scope['flannel::subnet_dir'] -%>
+ -subnet-file=<%= scope['flannel::subnet_file'] -%>
+"

@@ -1,10 +1,24 @@
 {
-    "Network": "10.0.0.0/8",
-    "SubnetLen": 20,
-    "SubnetMin": "10.10.0.0",
-    "SubnetMax": "10.99.0.0",
+    "Network": "<%= scope['flannel::network'] %>"<% -%>
+<% if @subnetlen then -%>,
+    "SubnetLen": <%= scope['flannel::subnetlen'] %>
+<% end -%>
+<% if @subnetmin then -%>,
+    "SubnetMin": "<%= scope['flannel::subnetmin'] %>"
+<% end -%>
+<% if @subnetmax then -%>,
+    "SubnetMax": "<%= scope['flannel::subnetmax'] %>"
+<% end -%>
+<% if @backend_type && @backend_port then -%>,
     "Backend": {
-        "Type": "udp",
-        "Port": 7890
+        "Type": "<%= scope['flannel::backend_type'] %>"
+<% if @backend_type == 'udp' then -%>,
+        "Port": <%= scope['flannel::backend_port'] %>
+<% elsif @backend_type == 'vxlan' -%>,
+        "VNI": <%= scope['flannel::backend_port'] %>
+<% elsif @backend_type == 'aws-vpc' -%>,
+        "RouteTableID": <%= scope['flannel::backend_port'] %>
+<% end -%>
     }
+<% end -%>
 }

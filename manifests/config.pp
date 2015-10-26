@@ -6,39 +6,30 @@ class flannel::config {
     mode    => '0644',
   }
 
-  if $flannel::configure_etcd {
-    if $flannel::etcd_keyfile and $flannel::etcd_certfile and $flannel::etcd_cafile {
-      $key = $flannel::etcd_keyfile
-      $cert = $flannel::etcd_certfile
-      $ca = $flannel::etcd_cafile
-    } else {
-      $key = undef
-      $cert = undef
-      $ca = undef
-    }
+  if $flannel::manage_docker {
+    $service_flannel_ensure = 'file'
+    File['/usr/lib/systemd/system/docker.service.d/flannel.conf'] ~> Service['flanneld'] ~> Service['docker']
+  } else {
+    $service_flannel_ensure = 'absent'
+  }
 
-    #    $local_subnetlen
-    #    if $subnetlen {
-    #      $local_subnetlen = "\"SubnetLen\": ${$flannel::subnetlen},"
-    #    }else {
-    # $local_subnetlen = ''
-    #    }
-    # "{
-    #    "Network": "${$flannel::network}",
-    #
-    #    "SubnetMin": "10.10.0.0",
-    #    "SubnetMax": "10.99.0.0",
-    #    "Backend": {
-    #        "Type": "udp",
-    #        "Port": 7890
-    #    }
-    # }"
-    etcd_key { $flannel::etcd_prefix:
+  file { '/usr/lib/systemd/system/docker.service.d/flannel.conf':
+    ensure  => $service_flannel_ensure,
+    content => template("${module_name}/service_flannel.conf"),
+    mode    => '0644',
+  } ~>
+  exec { 'reload systemctl daemon for flannel':
+    command     => '/bin/systemctl daemon-reload',
+    refreshonly => true
+  }
+
+  if $flannel::configure_etcd {
+    etcd_key { "${flannel::etcd_prefix}/config":
       value     => template("${module_name}/etcd_network_definition.erb"),
       peers     => $flannel::etcd_endpoints,
-      cert_file => $cert,
-      key_file  => $key,
-      ca_file   => $ca,
+      cert_file => $flannel::etcd_certfile,
+      key_file  => $flannel::etcd_keyfile,
+      ca_file   => $flannel::etcd_cafile,
     }
   }
 }
