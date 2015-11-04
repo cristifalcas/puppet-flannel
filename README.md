@@ -1,10 +1,10 @@
-# kubernetes #
+# flannel #
+[![Build Status](https://travis-ci.org/cristifalcas/puppet-flannel.png?branch=master)](https://travis-ci.org/cristifalcas/puppet-flannel)
 
 This module installs and configures flannel.
 
 
-
-Usage:
+## Usage: ##
 
     include etcd
     include flannel

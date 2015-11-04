@@ -1,6 +1,6 @@
 {
 	"name": "cristifalcas-flannel",
-	"version": "0.9.0",
+	"version": "0.10.0",
 	"author": "Cristian Falcas",
 	"license": "Apache-2.0",
 	"project_page": "https://github.com/cristifalcas/puppet-flannel",
@@ -36,6 +36,9 @@
 	"dependencies": [{
 			"name": "cristifalcas/etcd",
 			"version_requirement": "0.x"
+		},{
+			"name": "cristifalcas/docker",
+			"version_requirement": "5.x"
 		}
 	]
 }

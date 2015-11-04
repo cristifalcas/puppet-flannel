@@ -8,6 +8,7 @@ class flannel::config {
 
   if $flannel::manage_docker {
     $service_flannel_ensure = 'file'
+    include ::docker
     File['/usr/lib/systemd/system/docker.service.d/flannel.conf'] ~> Service['flanneld'] ~> Service['docker']
   } else {
     $service_flannel_ensure = 'absent'
@@ -20,7 +21,7 @@ class flannel::config {
   } ~>
   exec { 'reload systemctl daemon for flannel':
     command     => '/bin/systemctl daemon-reload',
-    refreshonly => true
+    refreshonly => true,
   }
 
   if $flannel::configure_etcd {
