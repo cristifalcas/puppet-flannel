@@ -7,15 +7,15 @@ class flannel::config {
   }
 
   if $flannel::manage_docker {
-    $service_flannel_ensure = 'file'
+    $docker_dropin_ensure = 'file'
     include ::docker
     File['/usr/lib/systemd/system/docker.service.d/flannel.conf'] ~> Service['flanneld'] ~> Service['docker']
   } else {
-    $service_flannel_ensure = 'absent'
+    $docker_dropin_ensure = 'absent'
   }
 
   file { '/usr/lib/systemd/system/docker.service.d/flannel.conf':
-    ensure  => $service_flannel_ensure,
+    ensure  => $docker_dropin_ensure,
     content => template("${module_name}/service_flannel.conf"),
     mode    => '0644',
   } ~>

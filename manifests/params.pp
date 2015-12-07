@@ -7,11 +7,6 @@ class flannel::params {
   $manage_docker = true
   $alsologtostderr = false
   $public_ip = undef
-  $etcd_endpoints = 'http://127.0.0.1:4001'
-  $etcd_prefix = '/coreos.com/network'
-  $etcd_keyfile = undef
-  $etcd_certfile = undef
-  $etcd_cafile = undef
   $iface = undef
   $subnet_dir = '/run/flannel/networks'
   $subnet_file = '/run/flannel/subnet.env'
@@ -24,6 +19,11 @@ class flannel::params {
   $remote_cafile = undef
   $networks = undef
 
+  $etcd_endpoints = 'http://127.0.0.1:4001'
+  $etcd_prefix = '/coreos.com/network'
+  $etcd_keyfile = undef
+  $etcd_certfile = undef
+  $etcd_cafile = undef
   $configure_etcd = false
   $network = '10.0.0.0/8'
   $subnetlen = undef
