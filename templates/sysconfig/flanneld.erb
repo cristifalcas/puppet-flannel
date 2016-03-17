@@ -29,7 +29,7 @@ FLANNEL_OPTIONS="<% -%>
  -networks=<%= scope['flannel::networks'] -%>
 <% end -%>
 <% if @public_ip then -%>
- -public-ip="<%= scope['flannel::public_ip'] %>"
+ -public-ip=<%= scope['flannel::public_ip'] -%>
 <% end -%>
 <% if @remote then -%>
  -remote=<%= scope['flannel::remote'] -%>
