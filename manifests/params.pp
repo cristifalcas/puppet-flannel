@@ -24,7 +24,6 @@ class flannel::params {
   $etcd_keyfile = undef
   $etcd_certfile = undef
   $etcd_cafile = undef
-  $configure_etcd = false
   $network = '10.0.0.0/8'
   $subnetlen = undef
   $subnetmin = undef

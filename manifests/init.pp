@@ -95,10 +95,6 @@
 #   if specified, will run in multi-network mode. Value is comma separate list of networks to join.
 #   Defaults to ""
 #
-# [*configure_etcd*]
-#   if we should use the etcd module to insert the etcd_key
-#   Defaults to false
-#
 # [*network*]
 #   IPv4 network in CIDR format to use for the entire flannel network. This is the only mandatory key.
 #   Defaults to 10.0.0.0/8
@@ -150,7 +146,6 @@ class flannel (
   $remote_cafile   = $flannel::params::remote_cafile,
   $networks        = $flannel::params::networks,
   # etcd network definition
-  $configure_etcd  = $flannel::params::configure_etcd,
   $network         = $flannel::params::network,
   $subnetlen       = $flannel::params::subnetlen,
   $subnetmin       = $flannel::params::subnetmin,

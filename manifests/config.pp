@@ -23,14 +23,4 @@ class flannel::config {
     command     => '/bin/systemctl daemon-reload',
     refreshonly => true,
   }
-
-  if $flannel::configure_etcd {
-    etcd_key { "${flannel::etcd_prefix}/config":
-      value     => template("${module_name}/etcd_network_definition.erb"),
-      peers     => $flannel::etcd_endpoints,
-      cert_file => $flannel::etcd_certfile,
-      key_file  => $flannel::etcd_keyfile,
-      ca_file   => $flannel::etcd_cafile,
-    }
-  }
 }
