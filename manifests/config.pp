@@ -5,7 +5,20 @@ case $::osfamily {
     'Debian': {
       if ($::operatingsystem == 'ubuntu' and $::lsbdistcodename in ['lucid', 'precise', 'trusty'])
       or ($::operatingsystem == 'debian' and $::operatingsystemmajrelease in ['6', '7', '8']) {
-         #
+          file { '/etc/flanneld':
+            ensure  => directory,
+            mode    => '0755',
+          }
+          file { '/etc/flanneld/flanneld.conf':
+            ensure  => file,
+            content => template("${module_name}/sysconfig/flanneld.erb"),
+            mode    => '0644',
+          }
+          file { '/etc/default/flanneld':
+            ensure  => file,
+            content => template("${module_name}/default/flanneld.erb"),
+            mode    => '0644',
+          }
       }
     }
     'RedHat': {
