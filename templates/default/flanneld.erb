@@ -1,0 +1,9 @@
+
+. /etc/flanneld/flanneld.conf
+
+FLANNEL="/usr/bin/flanneld"
+
+FLANNEL_OPTS="$FLANNEL_OPTIONS \
+ --etcd-endpoints=$FLANNEL_ETCD \
+ --etcd-prefix=$FLANNEL_ETCD_KEY \
+"
