@@ -43,6 +43,16 @@ Or using certificates:
 	    peer_client_cert_auth       => true,
 	  }
 
+	  class { '::flannel':
+	    ensure         => 'latest',
+	    etcd_endpoints => "http://${::fqdn}:2379",
+	    etcd_keyfile   => "${::settings::ssldir}/private_keys/${::clientcert}.pem",
+	    etcd_certfile  => "${::settings::ssldir}/certs/${::clientcert}.pem",
+	    etcd_cafile    => "${::settings::ssldir}/certs/ca.pem",
+	    etcd_prefix    => '/coreos.com/network',
+	    network        => '172.16.0.0/16',
+	  }
+
 ## Journald forward:
 
 The class support a parameter called journald_forward_enable.
@@ -50,3 +60,8 @@ The class support a parameter called journald_forward_enable.
 This was added because of the PIPE signal that is sent to go programs when systemd-journald dies.
 
 For more information read here: https://github.com/projectatomic/forward-journald
+
+### Usage:
+
+	  include ::forward_journald
+	  Class['forward_journald'] -> Class['flannel']
