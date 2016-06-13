@@ -4,6 +4,14 @@ class flannel::params {
   $service_state = 'running'
   $service_enable = true
 
+  if $::osfamily == 'Debian' {
+    $package_name = 'flanneld'
+  } elsif $::osfamily == 'RedHat' {
+    $package_name = 'flannel'
+  } else {
+    fail("Unsupported OS: ${::osfamily}")
+  }
+
   $manage_docker = true
   $alsologtostderr = false
   $public_ip = undef
@@ -30,4 +38,6 @@ class flannel::params {
   $subnetmax = undef
   $backend_type = 'udp'
   $backend_port = 7890
+
+  $journald_forward_enable = false
 }

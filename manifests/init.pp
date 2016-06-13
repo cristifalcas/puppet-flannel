@@ -120,39 +120,44 @@
 #   what port to use for backend communication
 #   Defaults to 7890
 #
-
+# [*journald_forward_enable*]
+#   Enable log forwarding via journald_forward_enable
+#
 class flannel (
-  $ensure          = $flannel::params::ensure,
-  $service_state   = $flannel::params::service_state,
-  $service_enable  = $flannel::params::service_enable,
+  $ensure                  = $flannel::params::ensure,
+  $service_state           = $flannel::params::service_state,
+  $service_enable          = $flannel::params::service_enable,
   # flannel parameters
-  $manage_docker   = $flannel::params::manage_docker,
-  $alsologtostderr = $flannel::params::alsologtostderr,
-  $public_ip       = $flannel::params::public_ip,
-  $etcd_endpoints  = $flannel::params::etcd_endpoints,
-  $etcd_prefix     = $flannel::params::etcd_prefix,
-  $etcd_keyfile    = $flannel::params::etcd_keyfile,
-  $etcd_certfile   = $flannel::params::etcd_certfile,
-  $etcd_cafile     = $flannel::params::etcd_cafile,
-  $iface           = $flannel::params::iface,
-  $subnet_dir      = $flannel::params::subnet_dir,
-  $subnet_file     = $flannel::params::subnet_file,
-  $ip_masq         = $flannel::params::ip_masq,
-  $listen          = $flannel::params::listen,
-  $log_dir         = $flannel::params::log_dir,
-  $remote          = $flannel::params::remote,
-  $remote_keyfile  = $flannel::params::remote_keyfile,
-  $remote_certfile = $flannel::params::remote_certfile,
-  $remote_cafile   = $flannel::params::remote_cafile,
-  $networks        = $flannel::params::networks,
+  $manage_docker           = $flannel::params::manage_docker,
+  $alsologtostderr         = $flannel::params::alsologtostderr,
+  $public_ip               = $flannel::params::public_ip,
+  $etcd_endpoints          = $flannel::params::etcd_endpoints,
+  $etcd_prefix             = $flannel::params::etcd_prefix,
+  $etcd_keyfile            = $flannel::params::etcd_keyfile,
+  $etcd_certfile           = $flannel::params::etcd_certfile,
+  $etcd_cafile             = $flannel::params::etcd_cafile,
+  $iface                   = $flannel::params::iface,
+  $subnet_dir              = $flannel::params::subnet_dir,
+  $subnet_file             = $flannel::params::subnet_file,
+  $ip_masq                 = $flannel::params::ip_masq,
+  $listen                  = $flannel::params::listen,
+  $log_dir                 = $flannel::params::log_dir,
+  $remote                  = $flannel::params::remote,
+  $remote_keyfile          = $flannel::params::remote_keyfile,
+  $remote_certfile         = $flannel::params::remote_certfile,
+  $remote_cafile           = $flannel::params::remote_cafile,
+  $networks                = $flannel::params::networks,
   # etcd network definition
-  $network         = $flannel::params::network,
-  $subnetlen       = $flannel::params::subnetlen,
-  $subnetmin       = $flannel::params::subnetmin,
-  $subnetmax       = $flannel::params::subnetmax,
-  $backend_type    = $flannel::params::backend_type,
-  $backend_port    = $flannel::params::backend_port,
+  $network                 = $flannel::params::network,
+  $subnetlen               = $flannel::params::subnetlen,
+  $subnetmin               = $flannel::params::subnetmin,
+  $subnetmax               = $flannel::params::subnetmax,
+  $backend_type            = $flannel::params::backend_type,
+  $backend_port            = $flannel::params::backend_port,
+  $journald_forward_enable = $flannel::params::journald_forward_enable,
 ) inherits flannel::params {
+  validate_bool($service_enable, $manage_docker, $alsologtostderr, $journald_forward_enable)
+
   contain flannel::install
   contain flannel::config
   contain flannel::service
