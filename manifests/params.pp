@@ -12,6 +12,11 @@ class flannel::params {
     fail("Unsupported OS: ${::osfamily}")
   }
 
+  $etcd_endpoints = 'http://127.0.0.1:4001'
+  $etcd_prefix = '/coreos.com/network'
+  $etcd_cafile = undef
+  $etcd_certfile = undef
+  $etcd_keyfile = undef
   $manage_docker = true
   $alsologtostderr = false
   $public_ip = undef
@@ -26,18 +31,6 @@ class flannel::params {
   $remote_certfile = undef
   $remote_cafile = undef
   $networks = undef
-
-  $etcd_endpoints = 'http://127.0.0.1:4001'
-  $etcd_prefix = '/coreos.com/network'
-  $etcd_keyfile = undef
-  $etcd_certfile = undef
-  $etcd_cafile = undef
-  $network = '10.0.0.0/8'
-  $subnetlen = undef
-  $subnetmin = undef
-  $subnetmax = undef
-  $backend_type = 'udp'
-  $backend_port = 7890
 
   $journald_forward_enable = false
 }

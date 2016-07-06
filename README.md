@@ -6,7 +6,6 @@ This module installs and configures flannel.
 
 ## Usage: ##
 
-    include etcd
     include flannel
 
 Or:
@@ -14,7 +13,6 @@ Or:
     class { 'flannel':
       etcd_endpoints => "http://${::fqdn}:2379",
       etcd_prefix    => '/coreos.com/network',
-      network        => '172.16.0.0/16',
     }
 
 Or using certificates:
@@ -26,9 +24,9 @@ Or using certificates:
 	    listen_client_urls          => 'https://0.0.0.0:2379',
 	    advertise_client_urls       => "https://${::fqdn}:2379",
 	    # clients ssl
-	    cert_file                   => '/etc/pki/puppet_certs/etcd/public_cert.pem',
-	    key_file                    => '/etc/pki/puppet_certs/etcd/private_cert.pem',
-	    trusted_ca_file             => '/etc/pki/puppet_certs/etcd/ca_cert.pem',
+	    cert_file                   => "${::settings::ssldir}/certs/${::clientcert}.pem",
+	    key_file                    => "${::settings::ssldir}/private_keys/${::clientcert}.pem",
+	    trusted_ca_file             => "${::settings::ssldir}/certs/ca.pem",
 	    # authorize clients
 	    client_cert_auth            => true,
 	    # cluster
@@ -36,9 +34,9 @@ Or using certificates:
 	    listen_peer_urls            => 'https://0.0.0.0:7001',
 	    initial_advertise_peer_urls => "https://${::fqdn}:7001",
 	    # peers ssl
-	    peer_cert_file              => '/etc/pki/puppet_certs/etcd/public_cert.pem',
-	    peer_key_file               => '/etc/pki/puppet_certs/etcd/private_cert.pem',
-	    peer_trusted_ca_file        => '/etc/pki/puppet_certs/etcd/ca_cert.pem',
+	    peer_cert_file              => "${::settings::ssldir}/certs/${::clientcert}.pem",
+	    peer_key_file               => "${::settings::ssldir}/private_keys/${::clientcert}.pem",
+	    peer_trusted_ca_file        => "${::settings::ssldir}/certs/ca.pem",
 	    # authorize peers
 	    peer_client_cert_auth       => true,
 	  }
@@ -50,8 +48,14 @@ Or using certificates:
 	    etcd_certfile  => "${::settings::ssldir}/certs/${::clientcert}.pem",
 	    etcd_cafile    => "${::settings::ssldir}/certs/ca.pem",
 	    etcd_prefix    => '/coreos.com/network',
-	    network        => '172.16.0.0/16',
 	  }
+
+## Create the etcd node:
+
+	  	class { '::flannel::etcd_key':
+	  		network   => '172.16.0.0/16',
+    		subnetmin => '172.16.100.0',
+  		}
 
 ## Journald forward:
 

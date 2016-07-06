@@ -5,7 +5,7 @@
 # Parameters:
 #
 # [*ensure*]
-#   Passed to the docker package.
+#   Passed to the flannel package.
 #   Defaults to present
 #
 # [*service_state*]
@@ -95,31 +95,6 @@
 #   if specified, will run in multi-network mode. Value is comma separate list of networks to join.
 #   Defaults to ""
 #
-# [*network*]
-#   IPv4 network in CIDR format to use for the entire flannel network. This is the only mandatory key.
-#   Defaults to 10.0.0.0/8
-#
-# [*subnetlen*]
-#   The size of the subnet allocated to each host.
-#   Defaults to 24 (i.e. /24) unless the Network was configured to be smaller than a /24
-#   in which case it is one less than the network.
-#
-# [*subnetmin*]
-#   The beginning of IP range which the subnet allocation should start with.
-#   Defaults to the first subnet of Network.
-#
-# [*subnetmax*]
-#   The end of the IP range at which the subnet allocation should end with.
-#   Defaults to the last subnet of Network.
-#
-# [*backend_type*]
-#   Type of backend to use
-#   Defaults to "udp" backend.
-#
-# [*backend_port*]
-#   what port to use for backend communication
-#   Defaults to 7890
-#
 # [*journald_forward_enable*]
 #   Enable log forwarding via journald_forward_enable
 #
@@ -147,20 +122,13 @@ class flannel (
   $remote_certfile         = $flannel::params::remote_certfile,
   $remote_cafile           = $flannel::params::remote_cafile,
   $networks                = $flannel::params::networks,
-  # etcd network definition
-  $network                 = $flannel::params::network,
-  $subnetlen               = $flannel::params::subnetlen,
-  $subnetmin               = $flannel::params::subnetmin,
-  $subnetmax               = $flannel::params::subnetmax,
-  $backend_type            = $flannel::params::backend_type,
-  $backend_port            = $flannel::params::backend_port,
   $journald_forward_enable = $flannel::params::journald_forward_enable,
 ) inherits flannel::params {
   validate_bool($service_enable, $manage_docker, $alsologtostderr, $journald_forward_enable)
 
-  contain flannel::install
-  contain flannel::config
-  contain flannel::service
+  contain '::flannel::install'
+  contain '::flannel::config'
+  contain '::flannel::service'
 
   Class['flannel::install'] ->
   Class['flannel::config'] ~>
