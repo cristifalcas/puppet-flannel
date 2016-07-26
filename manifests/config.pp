@@ -43,13 +43,13 @@ class flannel::config {
     }
 
     if $flannel::journald_forward_enable and $::operatingsystemmajrelease == 7 {
-      file { '/etc/systemd/system/flannel.service.d':
+      file { '/etc/systemd/system/flanneld.service.d':
         ensure => 'directory',
         owner  => 'root',
         group  => 'root',
         mode   => '0755',
       }
-      file { '/etc/systemd/system/flannel.service.d/journald.conf':
+      file { '/etc/systemd/system/flanneld.service.d/journald.conf':
         ensure  => file,
         owner   => 'root',
         group   => 'root',

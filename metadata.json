@@ -1,6 +1,6 @@
 {
 	"name": "cristifalcas-flannel",
-	"version": "1.4.0",
+	"version": "1.4.1",
 	"author": "Cristian Falcas",
 	"license": "Apache-2.0",
 	"project_page": "https://github.com/cristifalcas/puppet-flannel",
