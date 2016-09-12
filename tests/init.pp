@@ -1,1 +1,1 @@
-include flannel
+include ::flannel
