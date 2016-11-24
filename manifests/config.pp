@@ -24,7 +24,7 @@ class flannel::config {
       mode    => '0644',
     }
 
-    if $::operatingsystemmajrelease == 7 {
+    if $::operatingsystemmajrelease == '7' {
       if $::flannel::manage_docker {
         $docker_dropin_ensure = 'file'
         include ::docker
