@@ -25,7 +25,7 @@ class flannel::config {
     }
 
     if $::operatingsystemmajrelease == 7 {
-      if $flannel::manage_docker {
+      if $::flannel::manage_docker {
         $docker_dropin_ensure = 'file'
         include ::docker
         File['/usr/lib/systemd/system/docker.service.d/flannel.conf'] ~> Service['flanneld'] ~> Service['docker']
@@ -43,7 +43,7 @@ class flannel::config {
         refreshonly => true,
       }
 
-      if $flannel::journald_forward_enable {
+      if $::flannel::journald_forward_enable {
         file { '/etc/systemd/system/flanneld.service.d':
           ensure => 'directory',
           owner  => 'root',
