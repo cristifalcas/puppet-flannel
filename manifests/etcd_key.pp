@@ -43,9 +43,9 @@ class flannel::etcd_key (
   etcd_key { "${::flannel::etcd_prefix}/config":
     value     => template('flannel/etcd_network_definition.erb'),
     peers     => join($::flannel::etcd_endpoints, ','),
-    cert_file => $flannel::etcd_certfile,
-    key_file  => $flannel::etcd_keyfile,
-    ca_file   => $flannel::etcd_cafile,
+    cert_file => $::flannel::etcd_certfile,
+    key_file  => $::flannel::etcd_keyfile,
+    ca_file   => $::flannel::etcd_cafile,
     notify    => Service['flanneld'],
   }
 }
