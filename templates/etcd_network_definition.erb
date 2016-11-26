@@ -1,22 +1,22 @@
 {
     "Network": "<%= scope['flannel::etcd_key::network'] %>"<% -%>
-<% if @subnetlen then -%>,
+<% unless [nil, :undefined, :undef, ''].include?(scope['flannel::etcd_key::subnetlen']) -%>,
     "SubnetLen": <%= scope['flannel::etcd_key::subnetlen'] -%>
 <% end -%>
-<% if @subnetmin then -%>,
+<% unless [nil, :undefined, :undef, ''].include?(scope['flannel::etcd_key::subnetmin']) -%>,
     "SubnetMin": "<%= scope['flannel::etcd_key::subnetmin'] %>"<% -%>
 <% end -%>
-<% if @subnetmax then -%>,
+<% unless [nil, :undefined, :undef, ''].include?(scope['flannel::etcd_key::subnetmax']) -%>,
     "SubnetMax": "<%= scope['flannel::etcd_key::subnetmax'] %>"<% -%>
 <% end -%>
-<% if @backend_type && @backend_port then -%>,
+<% unless [nil, :undefined, :undef, ''].include?(scope['flannel::etcd_key::backend_type']) and [nil, :undefined, :undef, ''].include?(scope['flannel::etcd_key::backend_port']) -%>,
     "Backend": {
         "Type": "<%= scope['flannel::etcd_key::backend_type'] %>"<% -%>
-<% if @backend_type == 'udp' then -%>,
+<% if scope['flannel::etcd_key::backend_type'] == 'udp' then -%>,
         "Port": <%= scope['flannel::etcd_key::backend_port'] -%>
-<% elsif @backend_type == 'vxlan' -%>,
+<% elsif scope['flannel::etcd_key::backend_type'] == 'vxlan' -%>,
         "VNI": <%= scope['flannel::etcd_key::backend_port'] -%>
-<% elsif @backend_type == 'aws-vpc' -%>,
+<% elsif scope['flannel::etcd_key::backend_type'] == 'aws-vpc' -%>,
         "RouteTableID": <%= scope['flannel::etcd_key::backend_port'] -%>
 <% end -%>
 

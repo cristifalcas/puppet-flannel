@@ -1,14 +1,14 @@
 require 'spec_helper'
 
-describe 'flannel', :type => :class do
+describe 'flannel' do
   on_supported_os.each do |os, facts|
-    context "on #{os}" do
+    context "with defaults on #{os}" do
       let(:facts) do
-        facts.merge({:puppetversion => Puppet.version})
+        facts.merge({:puppetmaster => 'localhost.localdomain'})
       end
-      it 'test default install' do
-        is_expected.to compile.with_all_deps
-      end
+      let(:params) { { :ensure => 'installed' } }
+      it { should compile.with_all_deps }
+      it { should contain_class('flannel') }
     end
   end
 end
