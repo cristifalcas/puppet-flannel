@@ -18,10 +18,9 @@ class flannel::params {
   $etcd_certfile = undef
   $etcd_keyfile = undef
   $manage_docker = true
-  $alsologtostderr = false
   $public_ip = undef
   $iface = undef
-  $subnet_dir = '/run/flannel/networks'
+  $subnet_lease_renew_margin = undef
   $subnet_file = '/run/flannel/subnet.env'
   $ip_masq = false
   $listen = undef
@@ -31,6 +30,7 @@ class flannel::params {
   $remote_certfile = undef
   $remote_cafile = undef
   $networks = undef
+  $kube_subnet_mgr = undef
 
   $journald_forward_enable = false
 }
