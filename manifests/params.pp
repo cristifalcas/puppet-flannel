@@ -12,7 +12,7 @@ class flannel::params {
     fail("Unsupported OS: ${::osfamily}")
   }
 
-  $etcd_endpoints = 'http://127.0.0.1:4001'
+  $etcd_endpoints = [ 'http://127.0.0.1:4001' ]
   $etcd_prefix = '/coreos.com/network'
   $etcd_cafile = undef
   $etcd_certfile = undef
