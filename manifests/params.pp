@@ -30,7 +30,7 @@ class flannel::params {
   $remote_certfile = undef
   $remote_cafile = undef
   $networks = undef
-  $kube_subnet_mgr = undef
+  $kube_subnet_mgr = false
 
   $journald_forward_enable = false
 }
