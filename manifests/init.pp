@@ -127,7 +127,7 @@ class flannel (
   $kube_subnet_mgr           = $flannel::params::kube_subnet_mgr,
   $journald_forward_enable   = $flannel::params::journald_forward_enable,
 ) inherits flannel::params {
-  validate_bool($service_enable, $manage_docker, $journald_forward_enable, $kube_subnet_mgr)
+  validate_bool($service_enable, $manage_docker, $journald_forward_enable)
 
   contain '::flannel::install'
   contain '::flannel::config'
