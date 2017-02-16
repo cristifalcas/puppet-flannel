@@ -20,9 +20,7 @@
 #   Whether you want to keep /usr/lib/systemd/system/docker.service.d/flannel.conf
 #   Defaults to true
 #
-# [*alsologtostderr*]
-#   log to standard error as well as files
-#   Defaults to false
+## flanneld options
 #
 # [*public_ip*]
 #   IP accessible by other nodes for inter-host communication.
@@ -54,13 +52,13 @@
 #   Defaults to the interface for the default route on the machine.
 #   Defaults to ""
 #
-# [*subnet_dir*]
-#   directory where files with env variables (subnet, MTU, ...) will be written to
-#   Defaults to /run/flannel/networks
-#
 # [*subnet_file*]
 #   filename where env variables (subnet and MTU values) will be written to.
 #   Defaults to /run/flannel/subnet.env
+#
+# [*subnet_lease_renew_margin*]
+#   subnet lease renewal margin, in minutes.
+#   Defaults to undef
 #
 # [*ip_masq*]
 #   setup IP masquerade for traffic destined for outside the flannel network.
@@ -95,36 +93,41 @@
 #   if specified, will run in multi-network mode. Value is comma separate list of networks to join.
 #   Defaults to ""
 #
+# [*kube_subnet_mgr*]
+#   The Kubernetes API server can now be used as a datastore instead of etcd. This makes deployment easier as flannel
+#   no longer directly relies on the presence of an etcd server.
+#   Defaults to undef
+#
 # [*journald_forward_enable*]
 #   Enable log forwarding via journald_forward_enable
 #
 class flannel (
-  $ensure                  = $flannel::params::ensure,
-  $service_state           = $flannel::params::service_state,
-  $service_enable          = $flannel::params::service_enable,
+  $ensure                    = $flannel::params::ensure,
+  $service_state             = $flannel::params::service_state,
+  $service_enable            = $flannel::params::service_enable,
   # flannel parameters
-  $manage_docker           = $flannel::params::manage_docker,
-  $alsologtostderr         = $flannel::params::alsologtostderr,
-  $public_ip               = $flannel::params::public_ip,
-  $etcd_endpoints          = $flannel::params::etcd_endpoints,
-  $etcd_prefix             = $flannel::params::etcd_prefix,
-  $etcd_keyfile            = $flannel::params::etcd_keyfile,
-  $etcd_certfile           = $flannel::params::etcd_certfile,
-  $etcd_cafile             = $flannel::params::etcd_cafile,
-  $iface                   = $flannel::params::iface,
-  $subnet_dir              = $flannel::params::subnet_dir,
-  $subnet_file             = $flannel::params::subnet_file,
-  $ip_masq                 = $flannel::params::ip_masq,
-  $listen                  = $flannel::params::listen,
-  $log_dir                 = $flannel::params::log_dir,
-  $remote                  = $flannel::params::remote,
-  $remote_keyfile          = $flannel::params::remote_keyfile,
-  $remote_certfile         = $flannel::params::remote_certfile,
-  $remote_cafile           = $flannel::params::remote_cafile,
-  $networks                = $flannel::params::networks,
-  $journald_forward_enable = $flannel::params::journald_forward_enable,
+  $manage_docker             = $flannel::params::manage_docker,
+  $public_ip                 = $flannel::params::public_ip,
+  $etcd_endpoints            = $flannel::params::etcd_endpoints,
+  $etcd_prefix               = $flannel::params::etcd_prefix,
+  $etcd_keyfile              = $flannel::params::etcd_keyfile,
+  $etcd_certfile             = $flannel::params::etcd_certfile,
+  $etcd_cafile               = $flannel::params::etcd_cafile,
+  $iface                     = $flannel::params::iface,
+  $subnet_lease_renew_margin = $flannel::params::subnet_lease_renew_margin,
+  $subnet_file               = $flannel::params::subnet_file,
+  $ip_masq                   = $flannel::params::ip_masq,
+  $listen                    = $flannel::params::listen,
+  $log_dir                   = $flannel::params::log_dir,
+  $remote                    = $flannel::params::remote,
+  $remote_keyfile            = $flannel::params::remote_keyfile,
+  $remote_certfile           = $flannel::params::remote_certfile,
+  $remote_cafile             = $flannel::params::remote_cafile,
+  $networks                  = $flannel::params::networks,
+  $kube_subnet_mgr           = $flannel::params::kube_subnet_mgr,
+  $journald_forward_enable   = $flannel::params::journald_forward_enable,
 ) inherits flannel::params {
-  validate_bool($service_enable, $manage_docker, $alsologtostderr, $journald_forward_enable)
+  validate_bool($service_enable, $manage_docker, $journald_forward_enable, $kube_subnet_mgr)
 
   contain '::flannel::install'
   contain '::flannel::config'

@@ -9,7 +9,6 @@ FLANNEL_ETCD_PREFIX="<%= scope['flannel::etcd_prefix'] %>"
 
 # Any additional options that you want to pass
 FLANNEL_OPTIONS="<% -%>
- -alsologtostderr=<%= scope['flannel::alsologtostderr'] -%>
 <% unless [nil, :undefined, :undef, ''].include?(scope['flannel::etcd_cafile']) and [nil, :undefined, :undef, ''].include?(scope['flannel::etcd_certfile']) and [nil, :undefined, :undef, ''].include?(scope['flannel::etcd_keyfile']) -%>
  -etcd-cafile=<%= scope['flannel::etcd_cafile'] -%>
  -etcd-certfile=<%= scope['flannel::etcd_certfile'] -%>
@@ -39,6 +38,11 @@ FLANNEL_OPTIONS="<% -%>
  -remote-certfile=<%= scope['flannel::remote_certfile'] -%>
  -remote-keyfile=<%= scope['flannel::remote_keyfile'] -%>
 <% end -%>
- -subnet-dir=<%= scope['flannel::subnet_dir'] -%>
+<% unless [nil, :undefined, :undef, ''].include?(scope['flannel::subnet_lease_renew_margin']) -%>
+ -subnet-lease-renew-margin=<%= scope['flannel::subnet_lease_renew_margin'] -%>
+<% end -%>
+<% unless [nil, :undefined, :undef, ''].include?(scope['flannel::remote']) -%>
+ -kube-subnet-mgr=<%= scope['flannel::kube_subnet_mgr'] -%>
+<% end -%>
  -subnet-file=<%= scope['flannel::subnet_file'] -%>
 "
