@@ -2,6 +2,6 @@
 NotifyAccess=all
 Type=notify
 ExecStart=
-ExecStart=-/bin/sh -c "/usr/bin/flanneld -etcd-endpoints=${FLANNEL_ETCD} -etcd-prefix=${FLANNEL_ETCD_KEY} $FLANNEL_OPTIONS 2>&1 | /usr/bin/forward-journald -tag flanneld"
+ExecStart=-/bin/sh -c "/usr/bin/flanneld -etcd-endpoints=${FLANNEL_ETCD_ENDPOINTS} -etcd-prefix=${FLANNEL_ETCD_PREFIX} $FLANNEL_OPTIONS 2>&1 | /usr/bin/forward-journald -tag flanneld"
 StandardOutput=null
 StandardError=null

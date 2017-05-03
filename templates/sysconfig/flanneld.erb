@@ -1,11 +1,11 @@
 # Flanneld configuration options
 
 # etcd url location.  Point this to the server where etcd runs
-FLANNEL_ETCD="<%= Array(scope['flannel::etcd_endpoints']).join(",") %>"
+FLANNEL_ETCD_ENDPOINTS="<%= Array(scope['flannel::etcd_endpoints']).join(",") %>"
 
 # etcd config key.  This is the configuration key that flannel queries
 # For address range assignment
-FLANNEL_ETCD_KEY="<%= scope['flannel::etcd_prefix'] %>"
+FLANNEL_ETCD_PREFIX="<%= scope['flannel::etcd_prefix'] %>"
 
 # Any additional options that you want to pass
 FLANNEL_OPTIONS="<% -%>
